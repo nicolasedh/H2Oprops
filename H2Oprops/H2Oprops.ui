@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>643</width>
-    <height>644</height>
+    <width>688</width>
+    <height>709</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>H20props</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
      <widget class="QFrame" name="frame">
       <property name="sizePolicy">
@@ -171,354 +171,12 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>605</width>
-         <height>408</height>
+         <width>666</width>
+         <height>504</height>
         </rect>
        </property>
-       <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_pressure">
-          <property name="text">
-           <string>Pressure</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="pressure">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_pressure_unit">
-          <property name="text">
-           <string>[MPa]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_cp">
-          <property name="text">
-           <string>Cp</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="cp">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLabel" name="label_cp_unit">
-          <property name="text">
-           <string>[kJ/kg K]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_temperature">
-          <property name="text">
-           <string>Temperature</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="temperature">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <widget class="QLabel" name="label_temperature_unit">
-          <property name="text">
-           <string>[K]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_density">
-          <property name="text">
-           <string>Density</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLineEdit" name="density">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <widget class="QLabel" name="label_density_unit">
-          <property name="text">
-           <string>[kg/m^3]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_enthalpy">
-          <property name="text">
-           <string>Enthalpy</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QLineEdit" name="enthalpy">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="2">
-         <widget class="QLabel" name="label_enthalpy_unit">
-          <property name="text">
-           <string>[kJ/kg]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_entropy">
-          <property name="text">
-           <string>Entropy</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QLineEdit" name="entropy">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="2">
-         <widget class="QLabel" name="label_entropy_unit">
-          <property name="text">
-           <string>[kJ/kg K]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="label_dynamic_viscosity">
-          <property name="text">
-           <string>Dynamic viscosity</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="1">
-         <widget class="QLineEdit" name="dynamic_viscosity">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="2">
-         <widget class="QLabel" name="label_dynamic_viscosity_unit">
-          <property name="text">
-           <string>[Pa s]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="0">
-         <widget class="QLabel" name="label_kinematic_viscosity">
-          <property name="text">
-           <string>Kinematic viscosity</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="1">
-         <widget class="QLineEdit" name="kinematic_viscosity">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="2">
-         <widget class="QLabel" name="label_kinematic_viscosity_unit">
-          <property name="text">
-           <string>[m^2/s^2]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="label_thermal_diffusivity">
-          <property name="text">
-           <string>Thermal diffusivity</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="1">
-         <widget class="QLineEdit" name="thermal_diffusivity">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="2">
-         <widget class="QLabel" name="label_thermal_diffusivity_unit">
-          <property name="text">
-           <string>[m^2/s]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="0">
-         <widget class="QLabel" name="label_thermal_conductivity">
-          <property name="text">
-           <string>Thermal conductivity</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="1">
-         <widget class="QLineEdit" name="thermal_conductivity">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="2">
-         <widget class="QLabel" name="label_thermal_conductivity_unit">
-          <property name="text">
-           <string>[W/m K]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="1">
-         <widget class="QLineEdit" name="quality">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="2">
-         <widget class="QLabel" name="label_quality_unit">
-          <property name="text">
-           <string>[ - ]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="11" column="0">
-         <widget class="QLabel" name="label_prandtl">
-          <property name="text">
-           <string>Prandtl Number</string>
-          </property>
-         </widget>
-        </item>
-        <item row="11" column="1">
-         <widget class="QLineEdit" name="prandtl">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="11" column="2">
-         <widget class="QLabel" name="label_prandtl_unit">
-          <property name="text">
-           <string>[ - ]</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="0">
-         <widget class="QLabel" name="label_quality">
-          <property name="text">
-           <string>Quality</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-       <zorder>cp</zorder>
-       <zorder>label_density_unit</zorder>
-       <zorder>label_density</zorder>
-       <zorder>density</zorder>
-       <zorder>label_cp</zorder>
-       <zorder>label_cp_unit</zorder>
-       <zorder>label_enthalpy_unit</zorder>
-       <zorder>label_enthalpy</zorder>
-       <zorder>enthalpy</zorder>
-       <zorder>label_entropy_unit</zorder>
-       <zorder>label_entropy</zorder>
-       <zorder>entropy</zorder>
-       <zorder>label_thermal_diffusivity_unit</zorder>
-       <zorder>label_thermal_diffusivity</zorder>
-       <zorder>thermal_diffusivity</zorder>
-       <zorder>label_prandtl_unit</zorder>
-       <zorder>label_prandtl</zorder>
-       <zorder>prandtl</zorder>
-       <zorder>label_thermal_conductivity_unit</zorder>
-       <zorder>label_thermal_conductivity</zorder>
-       <zorder>thermal_conductivity</zorder>
-       <zorder>label_quality_unit</zorder>
-       <zorder>label_quality</zorder>
-       <zorder>quality</zorder>
-       <zorder>label_dynamic_viscosity</zorder>
-       <zorder>dynamic_viscosity</zorder>
-       <zorder>label_dynamic_viscosity_unit</zorder>
-       <zorder>label_kinematic_viscosity</zorder>
-       <zorder>kinematic_viscosity</zorder>
-       <zorder>label_kinematic_viscosity_unit</zorder>
-       <zorder>label_pressure</zorder>
-       <zorder>pressure</zorder>
-       <zorder>label_pressure_unit</zorder>
-       <zorder>label_temperature</zorder>
-       <zorder>temperature</zorder>
-       <zorder>label_temperature_unit</zorder>
       </widget>
      </widget>
-    </item>
-    <item>
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Expanding</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>618</width>
-        <height>1</height>
-       </size>
-      </property>
-     </spacer>
     </item>
    </layout>
   </widget>
@@ -527,7 +185,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>643</width>
+     <width>688</width>
      <height>25</height>
     </rect>
    </property>
@@ -556,39 +214,6 @@
    <addaction name="menuFile"/>
    <addaction name="menuHelp"/>
   </widget>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <widget class="QToolBar" name="toolBar_2">
-   <property name="windowTitle">
-    <string>toolBar_2</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <widget class="QToolBar" name="toolBar_3">
-   <property name="windowTitle">
-    <string>toolBar_3</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
@@ -616,18 +241,6 @@
   <tabstop>input1</tabstop>
   <tabstop>input2</tabstop>
   <tabstop>pushButton_calculate</tabstop>
-  <tabstop>pressure</tabstop>
-  <tabstop>cp</tabstop>
-  <tabstop>temperature</tabstop>
-  <tabstop>density</tabstop>
-  <tabstop>enthalpy</tabstop>
-  <tabstop>entropy</tabstop>
-  <tabstop>dynamic_viscosity</tabstop>
-  <tabstop>kinematic_viscosity</tabstop>
-  <tabstop>thermal_diffusivity</tabstop>
-  <tabstop>thermal_conductivity</tabstop>
-  <tabstop>quality</tabstop>
-  <tabstop>prandtl</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -26,6 +26,105 @@ from PyQt4 import QtCore, QtGui
 from H2Oprops_GUI import Ui_MainWindow
 from iapws import IAPWS97 as iapws
 
+data = {'col1':['1','2','3'], 'col2':['4','5','6'], 'col3':['7','8','9']}
+class WaterTableModel(QtCore.QAbstractTableModel):
+    def __init__(self, parent=None, *args):
+        self.waterData = list()       
+        super(WaterTableModel,self).__init__(parent,*args)
+
+        self.header = [
+            "Pressure [MPa]",
+            "Temperature [K]",
+            "Density [kg/m3]",
+            "Quality [-]",
+            "Cp [kJ/kgK]",
+            "Enthalpy [kJ/kg]",
+            "Entropy [kJ/kgK]",
+            "Thermal Conductivity [W/mK]",
+            "Thermal Diffusivity [m2/s]",
+            "Prandtl number [-]",
+            "Speed of Sound [m/s]",
+            "Kinematic viscosity [m2/s2]",
+            "Dynamic viscosity [Pa s]"
+            ]
+        
+        
+    def rowCount(self,parent=None):
+        return len(self.waterData)
+
+    def columnCount(self,parent=None):
+        return len(self.header)
+            
+    def data(self, index, role):
+        if not index.isValid():
+            return QtCore.QVariant()
+        elif role != QtCore.Qt.DisplayRole:
+            return QtCore.QVariant()
+        
+        col = index.column()
+        water = self.waterData[index.row()]
+        
+        if not water.status:
+            return QtCore.QVariant(-1)
+        #2do lägg till fler variabler!
+        if col == 0:
+            value = water.P
+        elif col == 1:
+            value = water.T
+        elif col == 2:
+            value = water.rho
+        elif col == 3:
+            value = water.x
+        elif col == 4:
+            value = water.cp
+        elif col == 5:
+            value = water.h
+        elif col == 6:
+            value = water.s
+        elif col == 7:
+            value = water.k
+        elif col == 8:
+            value = water.alfa
+        elif col == 9:
+            value = water.Prandt
+        elif col == 10:
+            value = water.w
+        elif col == 11:
+            value = water.nu
+        elif col == 12:
+            value = water.mu
+        else:
+            value = -1.0
+            
+        return QtCore.QVariant(value)
+        
+    def headerData(self,section, orientation, role = QtCore.Qt.DisplayRole):
+        if orientation == QtCore.Qt.Vertical or \
+           role != QtCore.Qt.DisplayRole:
+            return super(WaterTableModel,self).headerData(
+                        section,orientation,role)
+        
+        return QtCore.QVariant(self.header[section])
+        
+                   
+    
+    def reset_table(self):
+        """ when data has been changed outside this class
+            call this function. """
+        self.beginResetModel()
+        self.endResetModel()
+        
+        
+    def addWater(self,water):
+        if not water.status:
+            print "invalid status"
+            return
+        self.beginResetModel()
+        self.waterData.append(water)
+        self.endResetModel()
+        
+
+        
 class Calculator(QtGui.QMainWindow):
     
     def __init__(self):
@@ -39,6 +138,7 @@ class Calculator(QtGui.QMainWindow):
         self.ui.input1.setValidator(self.positive_float_validator)
         self.ui.input2.setValidator(self.temperature_validator)
         
+        #set up connections
         self.ui.input_selector.currentIndexChanged.connect(
             self.input_properties_changed)
         self.ui.pushButton_calculate.clicked.connect(
@@ -46,9 +146,23 @@ class Calculator(QtGui.QMainWindow):
         self.ui.actionExit.triggered.connect(QtGui.qApp.quit)
         self.ui.actionAbout.triggered.connect(self.show_about)
         self.ui.actionAbout_Qt.triggered.connect(lambda: QtGui.QMessageBox.aboutQt(self))
+        
         self.water=iapws(T=283,P=0.1)
+        self.initTable()
         self.calculate_values(None)
         self.show()
+    
+    def initTable(self):
+        self.ui.verticalLayout_2 = QtGui.QVBoxLayout(self.ui.scrollAreaWidgetContents)
+        self.ui.verticalLayout_2.setObjectName("verticalLayout_2")
+        
+        self.waterTableModel = WaterTableModel()
+        self.table = QtGui.QTableView()
+        self.table.setModel(self.waterTableModel)
+        self.table.setObjectName("table")
+        self.table.resizeColumnsToContents()
+        
+        self.ui.verticalLayout_2.addWidget(self.table)
         
     def input_properties_changed(self,e):
         ind = self.ui.input_selector.currentIndex()
@@ -105,22 +219,21 @@ class Calculator(QtGui.QMainWindow):
         #toFloat returns tuple (value,status)
         input1 = self.ui.input1.text().toFloat()[0]
         input2 = self.ui.input2.text().toFloat()[0]
-#        input1.toFloat()
         try:
             if ind < 4:
                 input1 /= 10.0 #convert bar to MPa
                 if ind == 0:
-                    self.water(P=input1,T=input2+273.14)
+                    water = iapws(P=input1,T=input2+273.14)
                 elif ind == 1:
-                    self.water(P=input1,h=input2)
+                    water = iapws(P=input1,h=input2)
                 elif ind == 2:
-                    self.water(P=input1,s=input2)
+                    water = iapws(P=input1,s=input2)
                 elif ind == 3:
-                    self.water(P=input1,x=input2)
+                    water = iapws(P=input1,x=input2)
             elif ind == 4:
-                self.water(T=input1+273.14,x=input2)
+                water = iapws(T=input1+273.14,x=input2)
             elif ind == 5:
-                self.water(h=input1,s=input2)
+                water = iapws(h=input1,s=input2)
         except NotImplementedError:
             QtGui.QMessageBox.warning(self,"Bad input",
             "You've input bad values either out of bounds or not yet implemented.",
@@ -128,20 +241,9 @@ class Calculator(QtGui.QMainWindow):
                                       QtGui.QMessageBox.Ok,
                                       QtGui.QMessageBox.NoButton)
         #Don't update if values are bad
-        if not self.water.status:
+        if not water.status:
             return
-        self.ui.pressure.setText("%g" %self.water.P)
-        self.ui.cp.setText("%g" %self.water.cp)
-        self.ui.temperature.setText("%g" %self.water.T)
-        self.ui.density.setText("%g" %self.water.rho)
-        self.ui.enthalpy.setText("%g" %self.water.h)
-        self.ui.entropy.setText("%g" %self.water.s)
-        self.ui.dynamic_viscosity.setText("%g" %self.water.mu)
-        self.ui.kinematic_viscosity.setText("%g" %self.water.nu)
-        self.ui.thermal_diffusivity.setText("%g" %self.water.alfa)
-        self.ui.thermal_conductivity.setText("%g" %self.water.k)
-        self.ui.quality.setText("%g" %self.water.x)
-        self.ui.prandtl.setText("%g" %self.water.Prandt)
+        self.waterTableModel.addWater(water)
         
     def show_about(self,e):
         msg = """

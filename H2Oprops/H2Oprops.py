@@ -19,7 +19,7 @@ Cacluations are done by using Juan José Gómez Romera's iapws97 implementation
 at https://github.com/jjgomera
 
 @author: Nicolas Edh
-@emal: nicolas.edh@gmail.com
+@email: nicolas.edh@gmail.com
 """
 
 from PyQt4 import QtCore, QtGui
@@ -244,7 +244,7 @@ class Calculator(QtGui.QMainWindow):
         if not water.status:
             return
         self.waterTableModel.addWater(water)
-        
+#        self.table.setColumnHidden(0,True)
     def show_about(self,e):
         msg = """
 Calculator of water and steam properties.

@@ -1,6 +1,8 @@
 # Backup files
 *.~
 *~
+\#*
+
 #ideas file
 myNotes.txt
 # Byte-compiled / optimized / DLL files

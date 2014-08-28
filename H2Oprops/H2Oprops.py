@@ -26,7 +26,37 @@ from PyQt4 import QtCore, QtGui
 from H2Oprops_GUI import Ui_MainWindow
 from iapws import IAPWS97 as iapws
 
-data = {'col1':['1','2','3'], 'col2':['4','5','6'], 'col3':['7','8','9']}
+def columnIdToPropertyValue(colid,water):
+    if colid == 0:
+        value = water.P
+    elif colid == 1:
+        value = water.T
+    elif colid == 2:
+        value = water.rho
+    elif colid == 3:
+        value = water.x
+    elif colid == 4:
+        value = water.cp
+    elif colid == 5:
+        value = water.h
+    elif colid == 6:
+        value = water.s
+    elif colid == 7:
+        value = water.k
+    elif colid == 8:
+        value = water.alfa
+    elif colid == 9:
+        value = water.Prandt
+    elif colid == 10:
+        value = water.w
+    elif colid == 11:
+        value = water.nu
+    elif colid == 12:
+        value = water.mu
+    else:
+        value = -1.0
+    return value
+
 class WaterTableModel(QtCore.QAbstractTableModel):
     def __init__(self, parent=None, *args):
         self.waterData = list()       
@@ -67,34 +97,7 @@ class WaterTableModel(QtCore.QAbstractTableModel):
         if not water.status:
             return QtCore.QVariant(-1)
         #2do lägg till fler variabler!
-        if col == 0:
-            value = water.P
-        elif col == 1:
-            value = water.T
-        elif col == 2:
-            value = water.rho
-        elif col == 3:
-            value = water.x
-        elif col == 4:
-            value = water.cp
-        elif col == 5:
-            value = water.h
-        elif col == 6:
-            value = water.s
-        elif col == 7:
-            value = water.k
-        elif col == 8:
-            value = water.alfa
-        elif col == 9:
-            value = water.Prandt
-        elif col == 10:
-            value = water.w
-        elif col == 11:
-            value = water.nu
-        elif col == 12:
-            value = water.mu
-        else:
-            value = -1.0
+        value = columnIdToPropertyValue(col,water)
             
         return QtCore.QVariant(value)
         

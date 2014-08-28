@@ -78,7 +78,6 @@ class WaterTableModel(QtCore.QAbstractTableModel):
             "Dynamic viscosity [Pa s]"
             ]
         
-        
     def rowCount(self,parent=None):
         return len(self.waterData)
 
@@ -109,14 +108,11 @@ class WaterTableModel(QtCore.QAbstractTableModel):
         
         return QtCore.QVariant(self.header[section])
         
-                   
-    
     def reset_table(self):
         """ when data has been changed outside this class
             call this function. """
         self.beginResetModel()
         self.endResetModel()
-        
         
     def addWater(self,water):
         if not water.status:
@@ -127,7 +123,6 @@ class WaterTableModel(QtCore.QAbstractTableModel):
         self.endResetModel()
         
 
-        
 class Calculator(QtGui.QMainWindow):
     
     def __init__(self):
@@ -164,7 +159,7 @@ class Calculator(QtGui.QMainWindow):
         self.table.setModel(self.waterTableModel)
         self.table.setObjectName("table")
         self.table.resizeColumnsToContents()
-        
+        self.table.installEventFilter(self)
         self.ui.verticalLayout_2.addWidget(self.table)
         
     def input_properties_changed(self,e):
@@ -247,6 +242,7 @@ class Calculator(QtGui.QMainWindow):
         if not water.status:
             return
         self.waterTableModel.addWater(water)
+        
 #        self.table.setColumnHidden(0,True)
     def show_about(self,e):
         msg = """
@@ -260,14 +256,60 @@ H2Oprops is distributed in the hope that it will be useful, but WITHOUT ANY WARR
 You should have received a copy of the GNU General Public License along with H2Oprops.  If not, see <http://www.gnu.org/licenses/>.
         """
         QtGui.QMessageBox.about(self,"About H2Oprops",msg)
-    
+
+    def eventFilter(self,obj,event):
+        if event.__class__ == QtGui.QKeyEvent and \
+            event.matches(QtGui.QKeySequence.Copy):
+#            print QtGui.QApplication.clipboard().setText("hej")
+#            mimeData = 
+            
+            QtGui.QApplication.clipboard().setMimeData(self.tableToMimeData())
+#            QtGui.QKeyEvent.
+        return super(Calculator,self).eventFilter(obj,event)  
+        
+    def tableToMimeData(self):
+        selectedCells = self.table.selectedIndexes()
+        selRows=list()
+        selCols=list()
+        for cell in selectedCells:
+            selRows.append(cell.row())
+            selCols.append(cell.column())
+        selRows=sorted(set(selRows))
+        selCols=sorted(set(selCols))
+        
+        data = "<!--StartFragment-->\n"
+        data += "<table>"
+        data += "<tr>\n"
+        for col in selCols:
+            data += "  <td> " 
+            data += self.waterTableModel.header[col]
+            data += "</td>"
+        data += "</tr>\n" 
+        
+        for row in selRows:
+            data += "<tr>\n"
+            water = self.waterTableModel.waterData[row]
+            for col in selCols:
+                data += " <td> "
+                data += "%g" %columnIdToPropertyValue(col,water)
+                data += " </td>\n"
+            data += "</tr>\n"
+        data += "</table>\n"
+        data += "<!--EndFragment-->\n"
+        
+        mimeData = QtCore.QMimeData()
+        mimeData.setHtml(data)
+        return mimeData
+#        QtCore.QModelIndex.row()
+#class copyEventFilter(QObject):
+#    def eventFilter()    
 def main():
     import sys
     app = QtGui.QApplication(sys.argv)
 #    app.aboutToQuit.connect(app.deleteLater)
     calc = Calculator()
     sys.exit(app.exec_())
-
+    
 #def calculate_values():
         
             

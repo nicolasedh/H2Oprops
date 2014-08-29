@@ -172,7 +172,7 @@ class Calculator(QtGui.QMainWindow):
             if ind == 0:
                 input2 = "Temperature"
                 input2_unit = "[C]"
-                self.ui.input2.setText("%g" %self.water.T)
+                self.ui.input2.setText("%g" %self.water.T-273.14)
                 self.ui.input2.setValidator(self.temperature_validator)
             elif ind == 1:
                 input2 = "Enthalpy"
@@ -192,7 +192,7 @@ class Calculator(QtGui.QMainWindow):
         elif ind == 4:
             input1 = "Temperature"
             input1_unit = "[C]"
-            self.ui.input1.setText("%g" %self.water.T)
+            self.ui.input1.setText("%g" %self.water.T-273.14)
             self.ui.input1.setValidator(self.temperature_validator)
             input2 = "Quality"
             input2_unit = "[-]"

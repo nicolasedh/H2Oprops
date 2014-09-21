@@ -61,21 +61,22 @@ class WaterTableModel(QtCore.QAbstractTableModel):
     def __init__(self, parent=None, *args):
         self.waterData = list()       
         super(WaterTableModel,self).__init__(parent,*args)
-
+        
+        #shortname, tooltip
         self.header = [
-            "Pressure [MPa]",
-            "Temperature [K]",
-            "Density [kg/m3]",
-            "Quality [-]",
-            "Cp [kJ/kgK]",
-            "Enthalpy [kJ/kg]",
-            "Entropy [kJ/kgK]",
-            "Thermal Conductivity [W/mK]",
-            "Thermal Diffusivity [m2/s]",
-            "Prandtl number [-]",
-            "Speed of Sound [m/s]",
-            "Kinematic viscosity [m2/s2]",
-            "Dynamic viscosity [Pa s]"
+            ("P","Pressure [MPa]"),
+            ("T","Temperature [K]"),
+            (u"\u03C1","Density [kg/m3]"),
+            ("x", "Quality [-]"),
+            ("Cp", "Cp [kJ/kgK]"),
+            ("h","Enthalpy [kJ/kg]"),
+            ("s","Entropy [kJ/kgK]"),
+            ("k","Thermal Conductivity [W/mK]"),
+            (u"\u03B1","Thermal Diffusivity [m2/s]"),
+            ("Pr","Prandtl number [-]"),
+            ("c","Speed of Sound [m/s]"),
+            (u"\u03BD","Kinematic viscosity [m2/s2]"),
+            (u"\u03BC","Dynamic viscosity [Pa s]")
             ]
         
     def rowCount(self,parent=None):
@@ -101,12 +102,14 @@ class WaterTableModel(QtCore.QAbstractTableModel):
         return QtCore.QVariant(value)
         
     def headerData(self,section, orientation, role = QtCore.Qt.DisplayRole):
-        if orientation == QtCore.Qt.Vertical or \
-           role != QtCore.Qt.DisplayRole:
+        if orientation == QtCore.Qt.Horizontal:
+            if role == QtCore.Qt.DisplayRole:
+               return QtCore.QVariant(self.header[section][0])
+            elif role == QtCore.Qt.ToolTipRole:
+                return QtCore.QVariant(self.header[section][1])
+        else:
             return super(WaterTableModel,self).headerData(
                         section,orientation,role)
-        
-        return QtCore.QVariant(self.header[section])
         
     def reset_table(self):
         """ when data has been changed outside this class
@@ -282,7 +285,7 @@ You should have received a copy of the GNU General Public License along with H2O
         data += "<tr>\n"
         for col in selCols:
             data += "  <td> " 
-            data += self.waterTableModel.header[col]
+            data += self.waterTableModel.header[col][1]
             data += "</td>"
         data += "</tr>\n" 
         

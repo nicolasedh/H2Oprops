@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'H2Oprops/H2Oprops.ui'
 #
-# Created: Thu Aug  7 15:19:44 2014
+# Created: Mon Sep 22 22:27:49 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -78,6 +78,12 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
+        self.clearButton = QtGui.QPushButton(self.frame)
+        self.clearButton.setObjectName(_fromUtf8("clearButton"))
+        self.horizontalLayout.addWidget(self.clearButton)
+        self.delButton = QtGui.QPushButton(self.frame)
+        self.delButton.setObjectName(_fromUtf8("delButton"))
+        self.horizontalLayout.addWidget(self.delButton)
         self.pushButton_calculate = QtGui.QPushButton(self.frame)
         self.pushButton_calculate.setObjectName(_fromUtf8("pushButton_calculate"))
         self.horizontalLayout.addWidget(self.pushButton_calculate)
@@ -128,6 +134,9 @@ class Ui_MainWindow(object):
         MainWindow.setTabOrder(self.input_selector, self.input1)
         MainWindow.setTabOrder(self.input1, self.input2)
         MainWindow.setTabOrder(self.input2, self.pushButton_calculate)
+        MainWindow.setTabOrder(self.pushButton_calculate, self.delButton)
+        MainWindow.setTabOrder(self.delButton, self.clearButton)
+        MainWindow.setTabOrder(self.clearButton, self.scrollArea)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "H20props", None))
@@ -143,6 +152,8 @@ class Ui_MainWindow(object):
         self.input1.setText(_translate("MainWindow", "1", None))
         self.label_input1_unit.setText(_translate("MainWindow", "[bar]", None))
         self.label_input1.setText(_translate("MainWindow", "Pressure ", None))
+        self.clearButton.setText(_translate("MainWindow", "clear all", None))
+        self.delButton.setText(_translate("MainWindow", "delete rows", None))
         self.pushButton_calculate.setText(_translate("MainWindow", "Calculate", None))
         self.menuFile.setTitle(_translate("MainWindow", "File", None))
         self.menuHelp.setTitle(_translate("MainWindow", "Help", None))

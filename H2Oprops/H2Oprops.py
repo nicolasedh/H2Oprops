@@ -117,6 +117,16 @@ class WaterTableModel(QtCore.QAbstractTableModel):
         self.beginResetModel()
         self.endResetModel()
         
+    def removeProps(self,indeces2rem):
+        objsToRem = list()
+        for index in indeces2rem:
+            objsToRem.append(self.waterData[index])
+        
+        self.beginResetModel()
+        for obj in objsToRem:
+            self.waterData.remove(obj)
+        self.endResetModel()
+        
     def addWater(self,water):
         if not water.status:
             print "invalid status"
@@ -144,6 +154,8 @@ class Calculator(QtGui.QMainWindow):
             self.input_properties_changed)
         self.ui.pushButton_calculate.clicked.connect(
             self.calculate_values)
+        self.ui.delButton.clicked.connect(self.delRow)
+        self.ui.clearButton.clicked.connect(self.clearTable)
         self.ui.actionExit.triggered.connect(QtGui.qApp.quit)
         self.ui.actionAbout.triggered.connect(self.show_about)
         self.ui.actionAbout_Qt.triggered.connect(lambda: QtGui.QMessageBox.aboutQt(self))
@@ -245,6 +257,17 @@ class Calculator(QtGui.QMainWindow):
         if not water.status:
             return
         self.waterTableModel.addWater(water)
+        
+    def delRow(self):
+        propsToDel = list()
+        for index in self.table.selectedIndexes():
+            propsToDel.append(index.row())
+        self.waterTableModel.removeProps(propsToDel)
+
+    def clearTable(self):
+        numProps = self.waterTableModel.rowCount()
+        self.waterTableModel.removeProps(range(numProps))
+        pass
         
 #        self.table.setColumnHidden(0,True)
     def show_about(self,e):

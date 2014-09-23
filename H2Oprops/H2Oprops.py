@@ -228,10 +228,13 @@ class Calculator(QtGui.QMainWindow):
         self.ui.label_input2_unit.setText(input2_unit)
         
     def calculate_values(self,e):
-        ind = self.ui.input_selector.currentIndex()
         #toFloat returns tuple (value,status)
         input1 = self.ui.input1.text().toFloat()[0]
         input2 = self.ui.input2.text().toFloat()[0]
+        self.calculate_values_from_input(input1,input2)
+
+    def calculate_values_from_input(self,input1,input2):
+        ind = self.ui.input_selector.currentIndex()
         try:
             if ind < 4:
                 input1 /= 10.0 #convert bar to MPa

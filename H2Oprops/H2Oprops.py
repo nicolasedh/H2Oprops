@@ -60,7 +60,7 @@ def columnIdToPropertyValue(colid,water):
 class WaterTableModel(QtCore.QAbstractTableModel):
     def __init__(self, parent=None, *args):
         self.waterData = list()       
-        super(WaterTableModel,self).__init__(parent,*args)
+        super(WaterTableModel,self).__init__(parent=parent,*args)
         
         #shortname, tooltip
         self.header = [
@@ -138,8 +138,8 @@ class WaterTableModel(QtCore.QAbstractTableModel):
 
 class Calculator(QtGui.QMainWindow):
     
-    def __init__(self):
-        super(Calculator,self).__init__()
+    def __init__(self,parent=None):
+        super(Calculator,self).__init__(parent=parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.positive_float_validator = QtGui.QDoubleValidator(0,1e10,20)
@@ -169,8 +169,8 @@ class Calculator(QtGui.QMainWindow):
         self.ui.verticalLayout_2 = QtGui.QVBoxLayout(self.ui.scrollAreaWidgetContents)
         self.ui.verticalLayout_2.setObjectName("verticalLayout_2")
         
-        self.waterTableModel = WaterTableModel()
-        self.table = QtGui.QTableView()
+        self.waterTableModel = WaterTableModel(parent=self)
+        self.table = QtGui.QTableView(parent=self)
         self.table.setModel(self.waterTableModel)
         self.table.setObjectName("table")
         self.table.resizeColumnsToContents()

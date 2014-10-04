@@ -365,13 +365,21 @@ You should have received a copy of the GNU General Public License along with H2O
         
     def textToValues(self,text):
         values = np.fromstring(text,sep=" ")
-        if not values.dtype == float:
+        if not values.dtype == float or \
+                values[0] == -1:
             msg = """
             Error pasted data must consist of 
             two columns where each column correspont
             to the selected variables in the input fields.
+            For example:
+            
+            10 50
+            10 60
+            10 70
+
+            and so on.
             """
-            QtGui.QMessageBox(msg,parent=self)
+            QtGui.QMessageBox.warning(self,"Bad clipboard",msg)
             return np.array([])
         #figure out the shape of data
         lines = text.split("\n")

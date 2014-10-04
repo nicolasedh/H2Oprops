@@ -25,6 +25,9 @@ at https://github.com/jjgomera
 from PyQt4 import QtCore, QtGui
 from H2Oprops_GUI import Ui_MainWindow
 from iapws import IAPWS97 as iapws
+import numpy as np
+from datetime import datetime
+
 
 def columnIdToPropertyValue(colid,water):
     if colid == 0:
@@ -92,14 +95,15 @@ class WaterTableModel(QtCore.QAbstractTableModel):
             return QtCore.QVariant()
         
         col = index.column()
-        water = self.waterData[index.row()]
+        row = index.row()
+        water = self.waterData[row]
         
         if not water.status:
             return QtCore.QVariant(-1)
-        #2do lägg till fler variabler!
         value = columnIdToPropertyValue(col,water)
-            
-        return QtCore.QVariant(value)
+        #note values needs to be converted to a float
+        #QVariant doesn't work with numpy.float64 or the likes
+        return QtCore.QVariant(float(value))
         
     def headerData(self,section, orientation, role = QtCore.Qt.DisplayRole):
         if orientation == QtCore.Qt.Horizontal:
@@ -139,6 +143,7 @@ class WaterTableModel(QtCore.QAbstractTableModel):
 class Calculator(QtGui.QMainWindow):
     
     def __init__(self,parent=None):
+        self.last_event_time = datetime.now()
         super(Calculator,self).__init__(parent=parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -270,8 +275,7 @@ class Calculator(QtGui.QMainWindow):
     def clearTable(self):
         numProps = self.waterTableModel.rowCount()
         self.waterTableModel.removeProps(range(numProps))
-        pass
-        
+         
 #        self.table.setColumnHidden(0,True)
     def show_about(self,e):
         msg = """
@@ -287,14 +291,29 @@ You should have received a copy of the GNU General Public License along with H2O
         QtGui.QMessageBox.about(self,"About H2Oprops",msg)
 
     def eventFilter(self,obj,event):
-        if event.__class__ == QtGui.QKeyEvent and \
-            event.matches(QtGui.QKeySequence.Copy):
-#            print QtGui.QApplication.clipboard().setText("hej")
-#            mimeData = 
+        if not event.__class__  == QtGui.QKeyEvent:
+            return super(Calculator,self).eventFilter(obj,event)  
+
+        if event.matches(QtGui.QKeySequence.Copy):
+            if not self.handleEvent(): return True
+            mime = self.tableToMimeData()
+            QtGui.QApplication.clipboard().setMimeData(mime)
             
-            QtGui.QApplication.clipboard().setMimeData(self.tableToMimeData())
-#            QtGui.QKeyEvent.
-        return super(Calculator,self).eventFilter(obj,event)  
+        elif event.matches(QtGui.QKeySequence.Paste):
+            if not self.handleEvent(): return True
+            self.pasteData()
+        else:
+            return super(Calculator,self).eventFilter(obj,event)  
+        return True
+
+    def handleEvent(self):
+        now = datetime.now()
+        time_diff = now - self.last_event_time
+        total_time_diff = time_diff.seconds + time_diff.microseconds/1.0e6
+        self.last_event_time = now 
+        if total_time_diff < 0.5:
+            return False
+        return True
         
     def tableToMimeData(self):
         selectedCells = self.table.selectedIndexes()
@@ -329,9 +348,44 @@ You should have received a copy of the GNU General Public License along with H2O
         mimeData = QtCore.QMimeData()
         mimeData.setHtml(data)
         return mimeData
-#        QtCore.QModelIndex.row()
-#class copyEventFilter(QObject):
-#    def eventFilter()    
+    
+    def pasteData(self):
+        clip = QtGui.QApplication.clipboard()
+        values = self.textToValues(str(clip.text()))
+        nrows,ncols = values.shape
+        #2do validate data!
+        if nrows == 2 and ncols > 2:
+            values = values.transpose()
+            nrows,ncols = values.shape
+        self.clearTable()
+        for i in xrange(0,nrows):
+            input1 = values[i,0]
+            input2 = values[i,1]
+            self.calculate_values_from_input(input1,input2)
+        
+    def textToValues(self,text):
+        values = np.fromstring(text,sep=" ")
+        if not values.dtype == float:
+            msg = """
+            Error pasted data must consist of 
+            two columns where each column correspont
+            to the selected variables in the input fields.
+            """
+            QtGui.QMessageBox(msg,parent=self)
+            return np.array([])
+        #figure out the shape of data
+        lines = text.split("\n")
+        try:
+            lines.remove("")
+        except ValueError:
+            pass
+        nrows = len(lines)
+        ncols = len(lines[0].split())
+        #reshape vector to 2d matrix
+        values = values.reshape(nrows,ncols)
+        return values
+    
+            
 def main():
     import sys
     app = QtGui.QApplication(sys.argv)
@@ -339,7 +393,6 @@ def main():
     calc = Calculator()
     sys.exit(app.exec_())
     
-#def calculate_values():
         
             
 if __name__ == "__main__":

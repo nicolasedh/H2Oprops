@@ -304,6 +304,7 @@ You should have received a copy of the GNU General Public License along with H2O
             self.pasteData()
         else:
             return super(Calculator,self).eventFilter(obj,event)  
+        self.last_event_time = datetime.now()
         return True
 
     def handleEvent(self):
@@ -352,8 +353,9 @@ You should have received a copy of the GNU General Public License along with H2O
     def pasteData(self):
         clip = QtGui.QApplication.clipboard()
         values = self.textToValues(str(clip.text()))
+        if values.size ==0:
+            return
         nrows,ncols = values.shape
-        #2do validate data!
         if nrows == 2 and ncols > 2:
             values = values.transpose()
             nrows,ncols = values.shape
@@ -365,8 +367,19 @@ You should have received a copy of the GNU General Public License along with H2O
         
     def textToValues(self,text):
         values = np.fromstring(text,sep=" ")
+        #figure out the shape of data
+        lines = text.split("\n")
+        try:
+            lines.remove("")
+        except ValueError:
+            pass
+        nrows = len(lines)
+        ncols = len(lines[0].split())
+
+        #validate data        
         if not values.dtype == float or \
-                values[0] == -1:
+                values[0] == -1 or \
+                not (ncols ==2 or nrows == 2):
             msg = """
             Error pasted data must consist of 
             two columns where each column correspont
@@ -381,14 +394,7 @@ You should have received a copy of the GNU General Public License along with H2O
             """
             QtGui.QMessageBox.warning(self,"Bad clipboard",msg)
             return np.array([])
-        #figure out the shape of data
-        lines = text.split("\n")
-        try:
-            lines.remove("")
-        except ValueError:
-            pass
-        nrows = len(lines)
-        ncols = len(lines[0].split())
+        
         #reshape vector to 2d matrix
         values = values.reshape(nrows,ncols)
         return values

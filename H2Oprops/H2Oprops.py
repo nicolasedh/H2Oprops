@@ -171,7 +171,6 @@ class Calculator(QtGui.QMainWindow):
         self.ui.actionAbout.triggered.connect(self.show_about)
         self.ui.actionAbout_Qt.triggered.connect(lambda: QtGui.QMessageBox.aboutQt(self))
         
-        self.water=iapws(T=283,P=0.1)
         self.initTable()
         self.calculate_values(None)
         self.show()
@@ -190,48 +189,53 @@ class Calculator(QtGui.QMainWindow):
         
     def input_properties_changed(self,e):
         ind = self.ui.input_selector.currentIndex()
+        if len(self.waterTableModel.waterData) == 0:
+            water = iapws(P=0.1,T=300.14)
+        else:
+            water = self.waterTableModel.waterData[-1]
+            
         if ind < 4:
             input1 = "Pressure"
             input1_unit = "[bar]"
-            self.ui.input1.setText("%g" %self.water.P)
+            self.ui.input1.setText("%g" %(water.P*10))
             self.ui.input1.setValidator(self.positive_float_validator)
             if ind == 0:
                 input2 = "Temperature"
                 input2_unit = "[C]"
-                self.ui.input2.setText("%g" %self.water.T-273.14)
+                self.ui.input2.setText("%g" %(water.T-273.14))
                 self.ui.input2.setValidator(self.temperature_validator)
             elif ind == 1:
                 input2 = "Enthalpy"
                 input2_unit = "[kJ/kg]"
-                self.ui.input2.setText("%g" %self.water.h)
+                self.ui.input2.setText("%g" %water.h)
                 self.ui.input2.setValidator(self.positive_float_validator)
             elif ind == 2:
                 input2 = "Enthropy"
                 input2_unit = "[kJ/kg K]"
-                self.ui.input2.setText("%g" %self.water.s)
+                self.ui.input2.setText("%g" %water.s)
                 self.ui.input2.setValidator(self.positive_float_validator)
             elif ind == 3:
                 input2 = "Quality"
                 input2_unit = "[-]"
-                self.ui.input2.setText("%g" %self.water.x)
+                self.ui.input2.setText("%g" %water.x)
                 self.ui.input2.setValidator(self.unit_validator)
         elif ind == 4:
             input1 = "Temperature"
             input1_unit = "[C]"
-            self.ui.input1.setText("%g" %self.water.T-273.14)
+            self.ui.input1.setText("%g" %(water.T-273.14))
             self.ui.input1.setValidator(self.temperature_validator)
             input2 = "Quality"
             input2_unit = "[-]"
-            self.ui.input2.setText("%g" %self.water.x)
+            self.ui.input2.setText("%g" %water.x)
             self.ui.input2.setValidator(self.unit_validator)
         elif ind == 5:
             input1 = "Enthalpy"
             input1_unit = "[kJ/kg]"
-            self.ui.input1.setText("%g" %self.water.h)
+            self.ui.input1.setText("%g" %water.h)
             self.ui.input1.setValidator(self.positive_float_validator)
             input2 = "Enthropy"
             input2_unit = "[kJ/kg K]"
-            self.ui.input2.setText("%g" %self.water.s)
+            self.ui.input2.setText("%g" %water.s)
             self.ui.input2.setValidator(self.positive_float_validator)
         self.ui.label_input1.setText(input1)
         self.ui.label_input1_unit.setText(input1_unit)

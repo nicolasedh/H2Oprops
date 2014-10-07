@@ -267,9 +267,9 @@ class Calculator(QtGui.QMainWindow):
         self.waterTableModel.addWater(water)
         
     def delRow(self):
-        propsToDel = list()
+        propsToDel = set()
         for index in self.table.selectedIndexes():
-            propsToDel.append(index.row())
+            propsToDel.add(index.row())
         self.waterTableModel.removeProps(propsToDel)
 
     def clearTable(self):

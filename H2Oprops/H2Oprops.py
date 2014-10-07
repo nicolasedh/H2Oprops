@@ -30,34 +30,38 @@ from datetime import datetime
 
 
 def columnIdToPropertyValue(colid,water):
-    if colid == 0:
-        value = water.P
-    elif colid == 1:
-        value = water.T
-    elif colid == 2:
-        value = water.rho
-    elif colid == 3:
-        value = water.x
-    elif colid == 4:
-        value = water.cp
-    elif colid == 5:
-        value = water.h
-    elif colid == 6:
-        value = water.s
-    elif colid == 7:
-        value = water.k
-    elif colid == 8:
-        value = water.alfa
-    elif colid == 9:
-        value = water.Prandt
-    elif colid == 10:
-        value = water.w
-    elif colid == 11:
-        value = water.nu
-    elif colid == 12:
-        value = water.mu
-    else:
-        value = -1.0
+    try:
+        if colid == 0:
+            value = water.P
+        elif colid == 1:
+            value = water.T
+        elif colid == 2:
+            value = water.rho
+        elif colid == 3:
+            value = water.x
+        elif colid == 4:
+            value = water.cp
+        elif colid == 5:
+            value = water.h
+        elif colid == 6:
+            value = water.s
+        elif colid == 7:
+            value = water.k
+        elif colid == 8:
+            value = water.alfa
+        elif colid == 9:
+            value = water.Prandt
+        elif colid == 10:
+            value = water.w
+        elif colid == 11:
+            value = water.nu
+        elif colid == 12:
+            value = water.mu
+        else:
+            value = -1.0
+    except AttributeError:
+        value=-1.0
+            
     return value
 
 class WaterTableModel(QtCore.QAbstractTableModel):
@@ -101,6 +105,8 @@ class WaterTableModel(QtCore.QAbstractTableModel):
         if not water.status:
             return QtCore.QVariant(-1)
         value = columnIdToPropertyValue(col,water)
+        if value == -1:
+            return QtCore.QVariant()
         #note values needs to be converted to a float
         #QVariant doesn't work with numpy.float64 or the likes
         return QtCore.QVariant(float(value))
@@ -341,7 +347,11 @@ You should have received a copy of the GNU General Public License along with H2O
             water = self.waterTableModel.waterData[row]
             for col in selCols:
                 data += " <td> "
-                data += "%g" %columnIdToPropertyValue(col,water)
+                value = columnIdToPropertyValue(col,water)
+                if value == -1:
+                    data += "-"
+                else:
+                    data += "%g" %value
                 data += " </td>\n"
             data += "</tr>\n"
         data += "</table>\n"

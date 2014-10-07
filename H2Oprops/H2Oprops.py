@@ -237,7 +237,8 @@ class Calculator(QtGui.QMainWindow):
         input1 = self.ui.input1.text().toFloat()[0]
         input2 = self.ui.input2.text().toFloat()[0]
         self.calculate_values_from_input(input1,input2)
-
+        self.table.resizeColumnsToContents()
+        
     def calculate_values_from_input(self,input1,input2):
         ind = self.ui.input_selector.currentIndex()
         try:
@@ -364,6 +365,7 @@ You should have received a copy of the GNU General Public License along with H2O
             input1 = values[i,0]
             input2 = values[i,1]
             self.calculate_values_from_input(input1,input2)
+        self.table.resizeColumnsToContents()
         
     def textToValues(self,text):
         values = np.fromstring(text,sep=" ")

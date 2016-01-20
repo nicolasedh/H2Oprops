@@ -24,7 +24,7 @@ at https://github.com/jjgomera
 
 from PyQt4 import QtCore, QtGui
 from H2Oprops_GUI import Ui_MainWindow
-from iapws import IAPWS97 as iapws
+from iapws97 import IAPWS97 as iapws
 import numpy as np
 from datetime import datetime
 

@@ -1,8 +1,9 @@
 H2Oprops
 ========
 
-GUI application for IAPWS97. Is a GUI for the library iapws for python 
-(https://github.com/jjgomera/iapws/).
+GUI application for IAPWS97. Which is a iapws library for python 
+(https://github.com/jjgomera/iapws/). The relavent files from 
+iapws has been copied into this project.
 
 H2Oprops is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,4 +19,16 @@ You should have received a copy of the GNU General Public License
 along with H2Oprops.  If not, see <http://www.gnu.org/licenses/>.
 
 
+Installation notes. If you have python just run
+python H2Oprops.py
+
+To create a windows executable make sure you have py2exe
+installed. Run 
+python setup.py py2exe
+
+and it should create an executable under dist
+
+py2exe is not included in winpython by default but can be downloaded.
+Installing py2exe is easier if you "regiestered" winpython to windows
+regestry
 

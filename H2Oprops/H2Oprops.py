@@ -82,7 +82,7 @@ class WaterTableModel(QtCore.QAbstractTableModel):
             (u"\u03B1","Thermal Diffusivity [m2/s]"),
             ("Pr","Prandtl number [-]"),
             ("c","Speed of Sound [m/s]"),
-            (u"\u03BD","Kinematic viscosity [m2/s2]"),
+            (u"\u03BD","Kinematic viscosity [m2/s]"),
             (u"\u03BC","Dynamic viscosity [Pa s]")
             ]
         

@@ -57,6 +57,8 @@ def columnIdToPropertyValue(colid,water):
             value = water.nu
         elif colid == 12:
             value = water.mu
+        elif colid == 13:
+            value = water.alfav
         else:
             value = -1.0
     except AttributeError:
@@ -83,7 +85,8 @@ class WaterTableModel(QtCore.QAbstractTableModel):
             ("Pr","Prandtl number [-]"),
             ("c","Speed of Sound [m/s]"),
             (u"\u03BD","Kinematic viscosity [m2/s]"),
-            (u"\u03BC","Dynamic viscosity [Pa s]")
+            (u"\u03BC","Dynamic viscosity [Pa s]"),
+            (u"\u03B1","Isobaric cubic expansion coefficient, [1/K]")
             ]
         
     def rowCount(self,parent=None):
